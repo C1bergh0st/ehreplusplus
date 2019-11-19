@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ issue.name }}{% endblock %}
+
+{% block content %}
+<div style="text-align:center">
+  <div class="very_rounded fg mutedbg mb-1 p-3">
+    <h2>{{ issue.name }}</h2>
+    <div>Erstellt am {{ issue.creation_date }} von <a href="{{issue.author.profile.ref}}" class="user">{{ issue.author }}</a></div>
+  </div>
+
+  <div class="very_rounded mutedbg fg mb-1 p-3">
+    {% if issue.honor_change %}
+      <div class="">
+          <a href="{{issue.target.profile.ref}}" class="user">{{ issue.target }}</a> ist ein Ehrenmann, weil:
+      </div>
+    {% else %}
+      <div class="">
+          <a href="{{issue.target.profile.ref}}" class="user">{{ issue.target }}</a> ist ehrenlos, weil:
+      </div>
+    {% endif %}
+
+    <div>{{ issue.reason }}</div>
+  </div>
+
+  <div class="very_rounded mb-1 warning fg p-3">
+    {% if isOver %}
+      Antrag ist vorbei und wurde {% if not issue.wasAccepted %} nicht {% endif %} akzeptiert
+    {% else %}
+      Antrag läuft in {{issue.remaining}} aus
+    {% endif %}
+  </div>
+
+
+  {% if not issue.isOver %}
+    <div class="container">
+        <div class="row mb-1"">
+            <div class="col good fg very_rounded p-4 ml-1" onclick="location.href='vote/True';">
+                  <h3>JA!</h3>
+            </div>
+            <div class="col bad fg very_rounded p-4 ml-1" onclick="location.href='vote/False';">
+                  <h3>NEIN!</h3>
+            </div>
+        </div>
+    </div>
+  {% endif %}
+
+
+  <div class="container ">
+      <div class="row">
+          <div class="col mutedbg fg very_rounded p-4 ml-1">
+            <h3>Haben dafür gestimmt</h3>
+            {% for user in issue.voted_yes.all %}
+              <a href="{{user.profile.ref}}" class="user">{{ user }}</a><br>
+            {% endfor %}
+          </div>
+          <div class="col mutedbg fg very_rounded p-4 ml-1">
+            <h3>Haben dagegen gestimmt</h3>
+            {% for user in issue.voted_no.all %}
+              <a href="{{user.profile.ref}}" class="user">{{ user }}</a><br>
+            {% endfor %}
+          </div>
+      </div>
+  </div>
+
+
+</div>
+
+
+{% endblock %}

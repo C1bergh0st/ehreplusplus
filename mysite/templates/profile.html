@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ user.username }}{% endblock %}
+
+{% block content %}
+<div style="text-align:center">
+  <div class="very_rounded bg fg p-1 row">
+    <div class="col">
+      <h2>{{ user.username }}</h2><br>
+      <h3>{{ user.first_name }}</h3><br>
+      <h3>{{ user.last_name }}</h3>
+    </div>
+    <div class="col" style="text-align:center">
+      <h3>Hat</h3>
+      <h2>{{ user.profile.ehre }}</h2>
+      <h3> Ehre im Leib </h3>
+    </div>
+    <div class="col">
+      <div>
+        Hier könnten Mehr infos stehen
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div style="text-align:center">
+  <div class="very_rounded p-1 row mt-1">
+    <div class="col">
+
+      <div class = "row very_rounded p-1 m-1 fg mutedbg" style="text-align:center">
+            <div class="col"><h2>Anträge gegen/für {{ user.username}}</h2></div>
+      </div>
+
+    <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+      <div class="col" style="text-align:left">
+        Erstellungsdatum
+      </div>
+      <div class="col" style="text-align:left">
+        Titel
+      </div>
+    </div>
+    {% for issue in issues %}
+      <a href="/issue/{{issue.id}}">
+        <div class = "row {% if issue.honor_change %}good{% else %}bad{% endif %} {% if not issue.wasAccepted and issue.isOver %}declined{% endif %} very_rounded p-1 m-1 user">
+          <div class="col" style="text-align:left">
+            {{ issue.creation_date }}
+          </div>
+          <div class="col" style="text-align:left">
+            {{ issue.name }}{% if issue.wasAccepted and issue.isOver %}✓{% endif %}
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+
+    <div class = "row very_rounded p-1 m-1 fg mutedbg" style="text-align:center">
+        <div class="col"> <h2>Erstellte Anträge</h2></div>
+    </div>
+
+    <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+      <div class="col" style="text-align:left">
+        Erstellungsdatum
+      </div>
+      <div class="col" style="text-align:left">
+        Titel
+      </div>
+    </div>
+    {% for issue in created %}
+      <a href="/issue/{{issue.id}}">
+        <div class = "row {% if issue.honor_change %}good{% else %}bad{% endif %} {% if not issue.wasAccepted and issue.isOver %}declined{% endif %} very_rounded p-1 m-1 user">
+          <div class="col" style="text-align:left">
+            {{ issue.creation_date }}
+          </div>
+          <div class="col" style="text-align:left">
+            {{ issue.name }}{% if issue.wasAccepted and issue.isOver %}✓{% endif %}
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}

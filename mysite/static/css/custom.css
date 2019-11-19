@@ -1,0 +1,76 @@
+:root {
+  --main-bg-color: #1e56a0;
+  --main-fg-color: #FFFFFF;
+  --muted-bg-color: #6286b7;
+  --good-bg-color: #4EBA63;
+  --bad-bg-color: #DD3B46;
+  --warning-bg-color: #DD7A00;
+
+}
+
+.declined {
+  text-decoration: line-through;
+}
+
+.warning{
+    background-color: var(--warning-bg-color);
+}
+
+.good {
+    background-color: var(--good-bg-color);
+}
+
+.bad {
+    background-color: var(--bad-bg-color);
+}
+
+.fg {
+  color: var(--main-fg-color);
+}
+
+.fg:hover {
+  color: var(--main-fg-color);
+  text-decoration: none;
+}
+
+#page-container {
+  position: relative;
+  min-height: 100vh;
+}
+
+#content-wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 2.5rem;
+    background-color: #f5f5f5;
+}
+
+.bg {
+  background-color: var(--main-bg-color);
+}
+
+.mutedbg{
+  background-color: var(--muted-bg-color);
+}
+
+.primary {
+  background-color: var(--main-bg-color);
+  color: var(--main-fg-color);
+}
+
+.user {
+  color: var(--main-fg-color);
+}
+
+.user:hover {
+  color: var(--main-fg-color);
+}
+
+.very_rounded {
+    border-radius: 0.75rem !important;
+}

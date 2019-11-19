@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Issue Creation{% endblock %}
+
+{% block content %}
+<div style="text-align:center"><h2>Feedback</h2></div>
+
+{% for feedback in feedbacks %}
+<div style="text-align:center">
+  <div class="very_rounded bg fg p-1 row m-1">
+    <div class="col">
+      <div class="row" style="text-align:center">
+        <div class="col">
+          <h2>{{ feedback.betreff }}</h2>
+        </div>
+      </div>
+      <div class="row" style="text-align:center">
+        <div class="col">
+          <h3>{{ feedback.text }}</h3>
+        </div>
+      </div>
+      <div class="row" style="text-align:center">
+        <div class="col">
+          <h5>{{ feedback.creation_date }}</h5>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endfor %}
+{% endblock %}

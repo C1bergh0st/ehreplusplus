@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block title %}Rangliste{% endblock %}
+
+{% block content %}
+<div>
+  <!-- Label-->
+  <div class = "row very_rounded p-1 m-1 fg mutedbg " style="text-align:center">
+    <div class="col">
+      <form method="post" id="form_login">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button class="btn btn-success" type="submit">Suchen</button>
+      </form>
+    </div>
+  </div>
+
+  {% if users%}
+    <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+      <div class="col">
+        <div div class="row">
+          <div class="col" style="text-align:center">
+            <h2>User</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col" style="text-align:left">
+            Nutzername
+          </div>
+          <div class="col" style="text-align:left">
+            Ehre
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {% for user in users %}
+      <a href="{{ user.profile.ref }}">
+        <div class = "row very_rounded p-1 m-1 user bg fg">
+          <div class="col" style="text-align:left">
+            {{ user.username }}
+          </div>
+          <div class="col" style="text-align:left">
+            {{ user.profile.ehre }}
+          </div>
+        </div>
+      </a>
+
+      {% endfor %}
+
+  {% else %}
+
+    <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+      <div class="col" style="text-align:center">
+        <h2>Keine Benutzer gefunden, die "{{ search_term }}" beinhalten</h2>
+      </div>
+    </div>
+
+  {% endif %}
+
+
+  {%if issues %}
+      <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+        <div class="col">
+          <div div class="row">
+            <div class="col" style="text-align:center">
+              <h2>Anträge</h2>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col" style="text-align:left">
+              Erstellungsdatum
+            </div>
+            <div class="col" style="text-align:left">
+              Titel
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% for issue in issues %}
+      <a href="/issue/{{issue.id}}">
+        <div class = "row {% if issue.honor_change %}good{% else %}bad{% endif %} {% if not issue.wasAccepted and issue.isOver %}declined{% endif %} very_rounded p-1 m-1 user">
+          <div class="col" style="text-align:left">
+            {{ issue.creation_date }}
+          </div>
+          <div class="col" style="text-align:left">
+            {{ issue.name }}{% if issue.wasAccepted and issue.isOver %}✓{% endif %}
+          </div>
+        </div>
+      </a>
+    {% endfor %}
+
+  {% else %}
+    <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+      <div class="col" style="text-align:center">
+        <h2>Keine Anträge gefunden, die "{{ search_term }}" beinhalten</h2>
+      </div>
+    </div>
+  {% endif %}
+</div>
+
+{% endblock %}

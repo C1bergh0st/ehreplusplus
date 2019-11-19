@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block title %}Rangliste{% endblock %}
+
+{% block content %}
+<div>
+  <!-- Label-->
+  <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+    <div class="col" style="text-align:left">
+      Name
+    </div>
+    <div class="col" style="text-align:left">
+      Ehre
+    </div>
+  </div>
+  {% for user in users %}
+    <a href="{{ user.profile.ref }}">
+      <div class = "row very_rounded p-1 m-1 user bg fg">
+        <div class="col" style="text-align:left">
+          {{ user.username }}
+        </div>
+        <div class="col" style="text-align:left">
+          {{ user.profile.ehre }}
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+</div>
+
+{% endblock %}

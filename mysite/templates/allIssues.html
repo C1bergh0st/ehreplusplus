@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Anträge{% endblock %}
+
+{% block content %}
+<div>
+  <!-- Label-->
+  <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+    <div class="col" style="text-align:left">
+      Erstellungsdatum
+    </div>
+    <div class="col" style="text-align:left">
+      Titel
+    </div>
+  </div>
+  {% for issue in issues %}
+    <a href="/issue/{{issue.id}}">
+      <div class = "row {% if issue.honor_change %}good{% else %}bad{% endif %} {% if not issue.wasAccepted and issue.isOver %}declined{% endif %} very_rounded p-1 m-1 user">
+        <div class="col" style="text-align:left">
+          {{ issue.creation_date }}
+        </div>
+        <div class="col" style="text-align:left">
+          {{ issue.name }}{% if issue.wasAccepted and issue.isOver %}✓{% endif %}
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+  
+</div>
+
+
+{% endblock %}

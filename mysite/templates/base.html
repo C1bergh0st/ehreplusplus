@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+{% load staticfiles  %}
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+  <title>ehre++: {% block title %}{% endblock %}</title>
+  <link rel=icon href="{% static 'favicon.png' %}">
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+
+
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="{% static 'js/bootstrap.js' %}"></script>
+
+  <style>
+  select {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+
+
+  <header class="navbar navbar-expand navbar-dark flex-column flex-md-row bd-navbar bg">
+  <a class="navbar-brand mr-0 mr-md-2" href="/" aria-label="ehre++">
+    ehre++
+  </a>
+
+  <div class="navbar-nav-scroll">
+    <ul class="navbar-nav bd-navbar-nav flex-row">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/accounts/profile/">Profil</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/issue/all/">Anträge</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/rank" rel="noopener">Rangliste</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/search" rel="noopener">Suchen</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/issue/create" rel="noopener">Neuer Antrag</a>
+      </li>
+    </ul>
+  </div>
+
+  <ul class="navbar-nav flex-row ml-md-auto  d-md-flex">
+    <li class="nav-item dropdown">
+      <a class="nav-item nav-link dropdown-toggle mr-md-2" href="#" id="bd-versions" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <img src="{% static 'logout.svg' %}"/>
+      </a>
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="bd-versions">
+        <a class="dropdown-item" href="/accounts/logout/?next=/">Log out</a>
+        <a class="dropdown-item active" href="/docs/4.0/">Settings</a>
+        <!--<div class="dropdown-divider"></div> -->
+      </div>
+    </li>
+  </ul>
+</header>
+
+
+  <div id="page-container">
+
+
+   <div id="content-wrap">
+     <div class="section no-pad-bot" id="index-banner">
+       <div class="container pt-3">
+         <!-- Content -->
+           {% block content %}
+           {% endblock %}
+
+       </div>
+     </div>
+   </div>
+
+
+   <footer id="footer" class="footer">
+         <div class="container">
+           <span class="text-muted">
+               <h5>Disclaimer:</h5>
+               This Website is currently not open to public users, only to alpha testers
+               If you have any Questions/Issues/GDPR request please send an email to philipp(at)berdesinski.dev
+           </span>
+         </div>
+   </footer>
+ </div>
+
+
+  </body>
+</html>
