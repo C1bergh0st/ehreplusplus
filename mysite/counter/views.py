@@ -9,6 +9,16 @@ from decimal import *
 
 @login_required
 def issue(request, id):
+    if (request.method == "POST"):
+        form = IssueCommentForm(request.POST)
+        if form.is_valid():
+            comment = IssueComment()
+            comment.text = form.cleaned_data["text"]
+            comment.author = request.user
+            comment.save()
+            form = IssueCommentForm()
+    else:
+        form = IssueCommentForm()
     issue = None
     try:
         issue = Issue.objects.get(id=id)
@@ -20,7 +30,7 @@ def issue(request, id):
     #    response += "Antrag ist vorrüber<br>"
     #if ( issue.honor_applied):
     #    response += "EHRE WURDE GEÄNDERT/NICHT GEÄNDERT"
-    return render(request, "issue.html", {"issue":issue, "isOver":issue.isOver()})
+    return render(request, "issue.html", {"issue":issue, "isOver":issue.isOver(),"form":form})
 
 @login_required
 def allIssues(request):

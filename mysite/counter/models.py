@@ -40,6 +40,14 @@ class Issue(models.Model):
     def wasAccepted(self):
         return len(self.voted_yes.all()) > len(self.voted_no.all())
 
+class IssueComment(models.Model):
+    text = models.TextField(help_text="Kommentar")
+    author = models.ForeignKey(User, default=1, on_delete=models.PROTECT, related_name='created_comments')
+    creation_date = models.DateTimeField(default=datetime.now, help_text="Erstellt am")
+    issue = models.ForeignKey(Issue, on_delete=models.PROTECT)
+
+class IssueCommentForm(forms.Form):
+    text = forms.CharField(widget=forms.Textarea, label="Kommentar", initial="", required=True)
 
 YES_NO_OPTION = [("True","Ehrenmann"),("False","Ehre genommen")]
 class IssueForm(forms.Form):
