@@ -77,7 +77,10 @@ class UserValues(models.Model):
         return '/profile/' + str(self.user.id)
 
 
-
+class Group(models.Model):
+    members = models.ManyToManyField(User, related_name="ehre_groups")
+    initiates = models.ManyToManyField(User, related_name="requested_groups")
+    admin = models.ForeignKey(User, default=1, on_delete=models.PROTECT, related_name='administrated_groups')
 
 #make sure every user has UserValues
 @receiver(post_save, sender=User)
