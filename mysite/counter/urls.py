@@ -26,5 +26,7 @@ urlpatterns = [
     path('issue/<int:id>/', views.issue, name='issue'),
     path('issue/<int:issue_id>/vote/<str:approve>', views.vote, name='vote'),
     path('profile/<int:id>/', views.profile, name='profile'),
-    path("accounts/profile/", views.redirectToUserProfile, name='redirectToUserProfile')
+    path("accounts/profile/", views.redirectToUserProfile, name='redirectToUserProfile'),
+    path("gang/<int:id>/", views.gang, name='gang'),
+    path("gang/<int:id>/settings", views.gangSettings, name='gangSettings')
 ]

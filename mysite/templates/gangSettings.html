@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ group.name }}{% endblock %}
+
+{% block content %}
+<div style="text-align:center">
+  <div class="very_rounded bg fg p-1 row">
+    <div class="col">
+      <h2>{{ group.name }}</h2>
+      <div>Erstellt am {{ group.creation_date }} von <a href="{{group.admin.profile.ref}}" class="user">{{ group.admin }}</a></div>
+    </div>
+  </div>
+
+  <div class="very_rounded bg fg p-1 row" style="text-align center">
+      <h2>Bewerber</h2>
+  </div>
+  <div class="very_rounded bg fg p-1 row" style="text-align center">
+        {% for user in group.initiates.all %}
+          <a href="{{user.profile.ref}}" class="user">{{ user }}</a> <button class="btn btn-success">JA</button> <button class="btn btn-danger">NEIN</button><br>
+        {% endfor %}
+  </div>
+
+</div>
+
+
+{% endblock %}

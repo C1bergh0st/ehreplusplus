@@ -78,9 +78,17 @@ class UserValues(models.Model):
 
 
 class Group(models.Model):
+    name = models.CharField(max_length=256, default="Gang", help_text="Der Name dieser Gang")
+    creation_date = models.DateTimeField(default=datetime.now, help_text="Erstellt am")
     members = models.ManyToManyField(User, related_name="ehre_groups")
     initiates = models.ManyToManyField(User, related_name="requested_groups")
     admin = models.ForeignKey(User, default=1, on_delete=models.PROTECT, related_name='administrated_groups')
+
+    def accumulatedEhre(self):
+        e = 0
+        for user in self.members.all():
+            e += user.profile.ehre
+        return e
 
 #make sure every user has UserValues
 @receiver(post_save, sender=User)

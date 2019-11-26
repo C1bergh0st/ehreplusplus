@@ -25,11 +25,6 @@ def issue(request, id):
         keepConsistent(issue)
     except Exception as e:
         raise Http404("Issue does not exist")
-
-    #if((issue.creation_date + issue.duration).replace(tzinfo=None) < datetime.now()):
-    #    response += "Antrag ist vorrüber<br>"
-    #if ( issue.honor_applied):
-    #    response += "EHRE WURDE GEÄNDERT/NICHT GEÄNDERT"
     return render(request, "issue.html", {"issue":issue, "isOver":issue.isOver(),"form":form})
 
 @login_required
@@ -79,6 +74,18 @@ def search(request):
     else:
         form = SearchForm()
     return render(request, "search.html", {"form": form})
+
+@login_required
+def gang(request, id):
+    group = get_object_or_404(Group, id=id)
+    return render(request, "gang.html", {"group":group})
+
+@login_required
+def gangSettings(request, id):
+    group = get_object_or_404(Group, id=id)
+    if (request.user != group.admin):
+        return render(request, "denied.html")
+    return render(request, "gangSettings.html", {"group":group})
 
 
 
