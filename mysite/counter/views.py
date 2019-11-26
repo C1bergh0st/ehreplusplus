@@ -88,6 +88,30 @@ def gangSettings(request, id):
     return render(request, "gangSettings.html", {"group":group})
 
 
+@login_required
+def mygangs(request):
+    return render(request, "mygangs.html",{"gangs":request.user.ehre_groups.all()})
+
+
+@login_required
+def gangChange(request, id, uid, approve):
+    group = get_object_or_404(Group, id=id)
+    user = get_object_or_404(User, id=uid)
+    if (request.user != group.admin):
+        return render(request, "denied.html")
+    approveBool = None
+    if(approve == "True"):
+        approveBool = True;
+    elif (approve == "False"):
+        approveBool = False
+    else:
+        return render(request, "error.html");
+    if user not in group.initiates.all():
+        return render(request, "error.html");
+    group.members.add(user)
+    group.initiates.remove(user)
+    return redirect("/gang/" + str(group.id) + "/settings")
+
 
 def keepConsistent(issue):
     if(issue.honor_applied or (issue.creation_date + issue.duration).replace(tzinfo=None) > datetime.now()):

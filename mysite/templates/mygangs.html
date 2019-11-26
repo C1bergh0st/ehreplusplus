@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Meine Gangs{% endblock %}
+
+{% block content %}
+<div>
+  <!-- Label-->
+  <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+    <div class="col" style="text-align:left">
+      Gang
+    </div>
+    <div class="col" style="text-align:left">
+      Mitglieder
+    </div>
+  </div>
+  {% for gang in gangs %}
+    <a href="/gang/{{gang.id}}">
+      <div class = "row bg very_rounded p-1 m-1 user">
+        <div class="col" style="text-align:left">
+          {{ gang.name }}
+        </div>
+        <div class="col" style="text-align:left">
+          {{ gang.members.all.count }}
+        </div>
+      </div>
+    </a>
+  {% endfor %}
+
+</div>
+
+
+{% endblock %}

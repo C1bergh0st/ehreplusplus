@@ -81,7 +81,7 @@ class Group(models.Model):
     name = models.CharField(max_length=256, default="Gang", help_text="Der Name dieser Gang")
     creation_date = models.DateTimeField(default=datetime.now, help_text="Erstellt am")
     members = models.ManyToManyField(User, related_name="ehre_groups")
-    initiates = models.ManyToManyField(User, related_name="requested_groups")
+    initiates = models.ManyToManyField(User, related_name="requested_groups", blank=True)
     admin = models.ForeignKey(User, default=1, on_delete=models.PROTECT, related_name='administrated_groups')
 
     def accumulatedEhre(self):

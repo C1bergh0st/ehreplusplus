@@ -13,12 +13,29 @@
       <h3>Kummulative Ehre</h3>
       <h2>{{ group.accumulatedEhre }}</h2>
     </div>
+    {% if group.admin == request.user%}
+      <div class="col very_rounded mutedbg pt-4" style="text-align:center" onclick="location.href='settings';">
+          <h3>Einstellungen</h3>
+      </div>
+    {% endif %}
   </div>
 
-  <div class="very_rounded bg fg p-1 row" style="text-align center">
-        {% for user in group.members.all %}
-          <a href="{{user.profile.ref}}" class="user">{{ user }}</a><br>
-        {% endfor %}
+  <div class="very_rounded bg fg p-1 row mt-1">
+    <div class="col">
+      <div class="row text-center">
+        <div class="col text-center">
+          Ehrenmänner
+        </div>
+      </div>
+      <div class="dropdown-divider"></div>
+      {% for user in group.members.all %}
+        <div class="row text-center">
+          <div class="col text-center">
+            <a href="{{user.profile.ref}}" class="user" style="text-align:center">{{ user }}</a>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </div>
 
 </div>

@@ -11,15 +11,30 @@
     </div>
   </div>
 
-  <div class="very_rounded bg fg p-1 row" style="text-align center">
-      <h2>Bewerber</h2>
+  <div class="very_rounded bg fg p-1 mt-1 row" style="text-align:center">
+    <div class="col">
+      <h3>Bewerber</h3>
+    </div>
   </div>
-  <div class="very_rounded bg fg p-1 row" style="text-align center">
-        {% for user in group.initiates.all %}
-          <a href="{{user.profile.ref}}" class="user">{{ user }}</a> <button class="btn btn-success">JA</button> <button class="btn btn-danger">NEIN</button><br>
-        {% endfor %}
+  {% for user in group.initiates.all %}
+  <div class="row mt-1" style="text-align center">
+      <div class="col very_rounded bg fg">
+            <h3><a href="{{user.profile.ref}}" class="user">{{ user }}</a></h3>
+      </div>
+      <div class="col very_rounded good fg" onclick="location.href='change/{{user.id}}/True';">
+            <h3>JA!</h3>
+      </div>
+      <div class="col very_rounded bad fg" onclick="location.href='change/{{user.id}}/False';">
+            <h3>NEIN!</h3>
+      </div>
   </div>
+  {% endfor %}
 
+  <div class="row mt-1" style="text-align center">
+      <div class="col very_rounded bad fg" onclick="location.href='/gang/{{group.id}}';">
+            <h3>Zurück</h3>
+      </div>
+  </div>
 </div>
 
 
