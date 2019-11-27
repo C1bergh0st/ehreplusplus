@@ -135,8 +135,8 @@ def createGang(request):
             group = Group()
             group.name = form.cleaned_data["name"]
             group.admin = request.user
-            group.members.add(request.user)
             group.save()
+            group.members.add(request.user)
             return redirect("/gang/" + str(group.id))
         return render(request, "gangCreation.html", {"form": form})
     else:
@@ -229,6 +229,9 @@ def profile(request, id):
 def index(request):
     if not request.user.is_authenticated:
         return render(request, "newUserFrontPage.html")
+    newIssues = []
     for iss in Issue.objects.all():
         keepConsistent(iss)
-    return render(request, "registration/home.html",{"issues":Issue.objects.all()})
+        if(request.user not in iss.voted_no.all() and request.user not in iss.voted_yes.all()):
+            newIssues.append(iss)
+    return render(request, "registration/home.html",{"issues":Issue.objects.all(), "unvoted":newIssues, "empty":len(newIssues) == 0})
