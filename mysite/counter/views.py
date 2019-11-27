@@ -9,32 +9,29 @@ from decimal import *
 
 @login_required
 def issue(request, id):
+    issue = get_object_or_404(Issue, id=id)
+    keepConsistent(issue)
     if (request.method == "POST"):
         form = IssueCommentForm(request.POST)
         if form.is_valid():
             comment = IssueComment()
             comment.text = form.cleaned_data["text"]
             comment.author = request.user
+            comment.issue = issue
             comment.save()
             form = IssueCommentForm()
     else:
         form = IssueCommentForm()
-    issue = None
-    try:
-        issue = Issue.objects.get(id=id)
-        keepConsistent(issue)
-    except Exception as e:
-        raise Http404("Issue does not exist")
-    return render(request, "issue.html", {"issue":issue, "isOver":issue.isOver(),"form":form})
+    return render(request, "issue.html", {"issue":issue, "form":form})
 
 @login_required
 def allIssues(request):
     return render(request, "allIssues.html", {"issues":Issue.objects.all()})
 
 @login_required
-def createIssue(request):
+def createIssue(request, gangid):
     if request.method == "POST":
-        form = IssueForm(request.POST)
+        form = IssueForm(gangid, request.POST)
         if form.is_valid():
             issue = Issue()
             issue.name = form.cleaned_data["name"]
@@ -42,12 +39,13 @@ def createIssue(request):
             issue.author = request.user
             issue.target = form.cleaned_data["target"]
             issue.honor_change = form.cleaned_data["honor_change"]
-            print(form.cleaned_data["honor_change"])
+            issue.group = Group.objects.get(id=gangid)
             issue.save()
+            issue.voted_yes.add(request.user)
             return redirect("/issue/" + str(issue.id))
         return render(request, "issueCreation.html", {"form": form})
     else:
-        form = IssueForm()
+        form = IssueForm(gangid)
     return render(request, "issueCreation.html", {"form": form})
 
 @login_required
@@ -181,6 +179,9 @@ def vote(request, issue_id, approve):
 
     issue = get_object_or_404(Issue, id=issue_id)
     keepConsistent(issue)
+
+    if request.user not in issue.group.members.all():
+        return render(request, "denied.html")
 
     if((issue.creation_date + issue.duration).replace(tzinfo=None) < datetime.now()):
         return HttpResponse("The issue has expired")

@@ -5,15 +5,14 @@ FIXED 	-Anträge laufen doppelt FEHLER im modell? -> auto_now?
 
 Ideen
 -Ehrenränge
--Kommentarfunktion unter Anträgen
+DONE -Kommentarfunktion unter Anträgen
 DONE -Reports/Improvement funktion
 -"High speed" after 50% voted yes/no
 -Backend für statistiken
 -Erst nach der Abstimmphase zeigen, wer abgestimmt hat
 -Home: noch zu bewertende Anträge anzeigen
--Freunde
--Gruppen
--Antragszeit auf 1T herabsetzen
+DONE -Gruppen
+DONE -Antragszeit auf 1T herabsetzen
 -Auf profilen hotlink zu Anträgen
--Erstellte Anträge automatisch dafür stimmen
+DONE -Erstellte Anträge automatisch dafür stimmen
 

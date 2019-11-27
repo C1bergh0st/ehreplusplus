@@ -7,6 +7,7 @@
   <div class="very_rounded fg mutedbg mb-1 p-3">
     <h2>{{ issue.name }}</h2>
     <div>Erstellt am {{ issue.creation_date }} von <a href="{{issue.author.profile.ref}}" class="user">{{ issue.author }}</a></div>
+    <div>Gang: <a href="/gang/{{ issue.group.id }}" class="user">{{ issue.group.name }}</a></div>
   </div>
 
   <div class="very_rounded mutedbg fg mb-1 p-3">
@@ -24,7 +25,7 @@
   </div>
 
   <div class="very_rounded mb-1 warning fg p-3">
-    {% if isOver %}
+    {% if issue.isOver %}
       Antrag ist vorbei und wurde {% if not issue.wasAccepted %} nicht {% endif %} akzeptiert
     {% else %}
       Antrag läuft in {{issue.remaining}} aus
@@ -32,7 +33,7 @@
   </div>
 
 
-  {% if not issue.isOver %}
+  {% if not issue.isOver and request.user in issue.group.members.all %}
     <div class="container">
         <div class="row mb-1"">
             <div class="col good fg very_rounded p-4 ml-1" onclick="location.href='vote/True';">
@@ -62,6 +63,15 @@
           </div>
       </div>
   </div>
+  <div class="very_rounded m-1 bg fg p-1">
+    <h3>Kommentare</h3>
+  </div>
+  {% for comment in issue.comments.all %}
+  <div class="very_rounded m-1 mutedbg fg p-1">
+    {{ comment.text }}<br>
+    by: <a href="{{comment.author.profile.ref}}" class="user">{{ comment.author }}</a><br>
+  </div>
+  {% endfor %}
 
   <div class="row justify-content-center">
     <div class="col-8" >
