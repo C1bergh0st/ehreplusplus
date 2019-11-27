@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.exceptions import ValidationError
 from django import forms
 from django.utils import timezone
 from django.conf import settings
@@ -89,6 +90,15 @@ class Group(models.Model):
         for user in self.members.all():
             e += user.profile.ehre
         return e
+
+class GroupForm(forms.Form):
+    name = forms.CharField(max_length=256, label="Titel", initial="");
+
+    def clean_name(self):
+        uname = self.cleaned_data['name']
+        if Group.objects.filter(name=uname).exists():
+            raise ValidationError("Gang name already exists")
+        return uname
 
 #make sure every user has UserValues
 @receiver(post_save, sender=User)

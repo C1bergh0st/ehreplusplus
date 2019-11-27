@@ -28,7 +28,9 @@ urlpatterns = [
     path('profile/<int:id>/', views.profile, name='profile'),
     path("accounts/profile/", views.redirectToUserProfile, name='redirectToUserProfile'),
     path("gang/mygangs/", views.mygangs, name='mygangs'),
-    path("gang/<int:id>/settings", views.gangSettings, name='gangSettings'),
-    path("gang/<int:id>/change/<int:uid>/<str:approve>", views.gangChange, name='gangChange'),
+    path("gang/create/", views.createGang, name='createGang'),
+    path("gang/<int:id>/settings/", views.gangSettings, name='gangSettings'),
+    path("gang/<int:id>/change/<int:uid>/<str:approve>/", views.gangChange, name='gangChange'),
+    path("gang/<int:id>/request/", views.gangRequest, name='gangRequest'),
     path("gang/<int:id>/", views.gang, name='gang'),
 ]

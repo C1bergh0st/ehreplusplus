@@ -18,6 +18,16 @@
           <h3>Einstellungen</h3>
       </div>
     {% endif %}
+    {% if request.user not in group.members.all and request.user not in group.initiates.all %}
+      <div class="col very_rounded good pt-4" style="text-align:center" onclick="location.href='request';">
+          <h3>Bewerben</h3>
+      </div>
+    {% endif %}
+    {% if request.user in group.initiates.all %}
+      <div class="col very_rounded mutedbg pt-4" style="text-align:center">
+          <h3>Bu bist hier Bewerber</h3>
+      </div>
+    {% endif %}
   </div>
 
   <div class="very_rounded bg fg p-1 row mt-1">

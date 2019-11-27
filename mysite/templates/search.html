@@ -60,6 +60,35 @@
 
   {% endif %}
 
+  {%if gangs %}
+      <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+        <div class="col">
+          <div div class="row">
+            <div class="col" style="text-align:center">
+              <h2>Gangs</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    {% for gang in gangs %}
+      <a href="/issue/{{issue.id}}">
+        <div class = "row {% if issue.honor_change %}good{% else %}bad{% endif %} {% if not issue.wasAccepted and issue.isOver %}declined{% endif %} very_rounded p-1 m-1 user">
+          <div class="col" style="text-align:left">
+            {{ gang.name }}
+          </div>
+
+        </div>
+      </a>
+    {% endfor %}
+
+  {% else %}
+    <div class = "row very_rounded p-1 m-1 fg mutedbg ">
+      <div class="col" style="text-align:center">
+        <h2>Keine Gangs gefunden, die "{{ search_term }}" beinhalten</h2>
+      </div>
+    </div>
+  {% endif %}
 
   {%if issues %}
       <div class = "row very_rounded p-1 m-1 fg mutedbg ">
@@ -71,10 +100,10 @@
           </div>
           <div class="row">
             <div class="col" style="text-align:left">
-              Erstellungsdatum
+              Title
             </div>
             <div class="col" style="text-align:left">
-              Titel
+              Erstellungsdatum
             </div>
           </div>
         </div>
@@ -84,10 +113,10 @@
       <a href="/issue/{{issue.id}}">
         <div class = "row {% if issue.honor_change %}good{% else %}bad{% endif %} {% if not issue.wasAccepted and issue.isOver %}declined{% endif %} very_rounded p-1 m-1 user">
           <div class="col" style="text-align:left">
-            {{ issue.creation_date }}
+            {{ issue.name }}{% if issue.wasAccepted and issue.isOver %}✓{% endif %}
           </div>
           <div class="col" style="text-align:left">
-            {{ issue.name }}{% if issue.wasAccepted and issue.isOver %}✓{% endif %}
+            {{ issue.creation_date }}
           </div>
         </div>
       </a>
@@ -100,6 +129,8 @@
       </div>
     </div>
   {% endif %}
+
+
 </div>
 
 {% endblock %}

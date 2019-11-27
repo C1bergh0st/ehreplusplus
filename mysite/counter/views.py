@@ -68,9 +68,10 @@ def search(request):
             user_1 = User.objects.filter(username__icontains=search_term)
             user_2 = User.objects.filter(first_name__icontains=search_term)
             user_3 = User.objects.filter(last_name__icontains=search_term)
+            gangs = Group.objects.filter(name__icontains=search_term)
             issues = issues_1 | issues_2
             users = user_1 | user_2 | user_3
-            return render(request, "search.html", {"form":form, "issues":issues, "users":users, "search_term":str(form.cleaned_data["search_term"])})
+            return render(request, "search.html", {"form":form, "gangs":gangs, "issues":issues, "users":users, "search_term":str(form.cleaned_data["search_term"])})
     else:
         form = SearchForm()
     return render(request, "search.html", {"form": form})
@@ -78,6 +79,9 @@ def search(request):
 @login_required
 def gang(request, id):
     group = get_object_or_404(Group, id=id)
+    for user in group.members.all():
+        for issue in user.is_targeted_by.all():
+            keepConsistent(issue)
     return render(request, "gang.html", {"group":group})
 
 @login_required
@@ -92,6 +96,15 @@ def gangSettings(request, id):
 def mygangs(request):
     return render(request, "mygangs.html",{"gangs":request.user.ehre_groups.all()})
 
+@login_required
+def gangRequest(request, id):
+    group = get_object_or_404(Group, id=id)
+    user = request.user
+    if (user not in group.members.all()) and (user not in group.initiates.all()):
+        group.initiates.add(user)
+        return redirect("/gang/" + str(group.id))
+    else:
+        return render(request, "error.html");
 
 @login_required
 def gangChange(request, id, uid, approve):
@@ -108,9 +121,29 @@ def gangChange(request, id, uid, approve):
         return render(request, "error.html");
     if user not in group.initiates.all():
         return render(request, "error.html");
-    group.members.add(user)
-    group.initiates.remove(user)
+    if approveBool:
+        group.members.add(user)
+        group.initiates.remove(user)
+    else:
+        group.members.remove(user)
+        group.initiares.remove(user)
     return redirect("/gang/" + str(group.id) + "/settings")
+
+@login_required
+def createGang(request):
+    if request.method == "POST":
+        form = GroupForm(request.POST)
+        if form.is_valid():
+            group = Group()
+            group.name = form.cleaned_data["name"]
+            group.admin = request.user
+            group.members.add(request.user)
+            group.save()
+            return redirect("/gang/" + str(group.id))
+        return render(request, "gangCreation.html", {"form": form})
+    else:
+        form = GroupForm()
+    return render(request, "gangCreation.html", {"form": form})
 
 
 def keepConsistent(issue):
