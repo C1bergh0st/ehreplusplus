@@ -102,6 +102,13 @@ class UserValues(models.Model):
     def ref(self):
         return '/profile/' + str(self.user.id)
 
+    def increaseEhre(self):
+        self.ehre += Decimal(1)
+        self.save()
+
+    def takeEhre(self):
+        self.ehre = Decimal(0)
+        self.save()
 
 
 #make sure every user has UserValues
