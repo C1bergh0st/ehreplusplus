@@ -2,12 +2,9 @@
 
 {% block title %}ehre++{% endblock %}
 
-{% block content %}<!--
-<a href="/accounts/login">
-  <div class="bg fg very_rounded p-1" style="text-align:center">
-    <h1>Login here</h1>
-  </div>
-</a>-->
-
-    <button class="btn btn-lg btn-block fg bg" onClick="location.href='/accounts/login'">login here</button>
+{% block content %}
+    <div class="very_rounded bg fg text-center p-4 mb-1">
+      <h1>ehre++</h1>
+    </div>
+    <button class="btn btn-lg btn-block fg mutedbg" onClick="location.href='/accounts/login'">login here</button>
 {% endblock %}

@@ -8,6 +8,10 @@
 
 }
 
+.text-muted {
+    color: var(--main-fg-color) !important;
+}
+
 .declined {
   text-decoration: line-through;
 }
