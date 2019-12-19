@@ -20,9 +20,9 @@ def createFeedback(request):
         return render(request, "feedBackCreation.html", {"form": form})
     else:
         form = FeedBackForm()
-    return render(request, "feedBackCreation.html", {"form": form})
+    return render(request, "feedback/feedBackCreation.html", {"form": form})
 
 
 @login_required
 def feedBack(request):
-    return render(request, "feedBack.html", {"feedbacks": FeedBack.objects.all()})
+    return render(request, "feedback/feedBack.html", {"feedbacks": FeedBack.objects.all()})

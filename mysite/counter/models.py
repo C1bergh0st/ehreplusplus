@@ -112,16 +112,16 @@ class UserValues(models.Model):
 
 
 #make sure every user has UserValues
-@receiver(post_save, sender=User)
-def create_user_profile(sender, instance, created, **kwargs):
-    if created:
-        UserValues.objects.create(user=instance)
+#@receiver(post_save, sender=User)
+#def create_user_profile(sender, instance, created, **kwargs):
+#    if created:
+#        UserValues.objects.create(user=instance)
 
 
-@receiver(post_save, sender=User)
-def save_user_profile(sender, instance, **kwargs):
+#@receiver(post_save, sender=User)
+#def save_user_profile(sender, instance, **kwargs):
     #try:
-    instance.profile.save()
+    #instance.profile.save()
     # if the profile does not exist, kwargs is modified and the call redirected to create_user_profile
     #except Exception:
     #    kwargs.update({'created': True})

@@ -153,14 +153,12 @@ def keepConsistent(issue):
     if(len(issue.voted_yes.all()) > len(issue.voted_no.all())):
         print("Angenommen");
         if(issue.honor_change):
-            profile.ehre += Decimal(1)
+            profile.increaseEhre()
         else:
-            #profile.ehre -= Decimal(1)
-            profile.ehre = Decimal(0);
-    print("Ehre danach" + str(profile.ehre));
+            profile.takeEhre()
+    print("Ehre danach" + str(profile.ehre))
     issue.honor_applied = True
     issue.save()
-    profile.save()
     return
 
 
@@ -203,8 +201,9 @@ def vote(request, issue_id, approve):
 
 @login_required
 def redirectToUserProfile(request):
-    user = request.user;
-    return redirect("/profile/" + str(user.id))
+    #user = request.user;
+    #return redirect("/profile/" + str(user.id))
+    return redirect("/")
 
 
 @login_required
@@ -234,4 +233,4 @@ def index(request):
         keepConsistent(iss)
         if(request.user not in iss.voted_no.all() and request.user not in iss.voted_yes.all()):
             newIssues.append(iss)
-    return render(request, "registration/home.html",{"issues":Issue.objects.all(), "unvoted":newIssues, "empty":len(newIssues) == 0})
+    return render(request, "counter/home.html",{"issues":Issue.objects.all(), "unvoted":newIssues, "empty":len(newIssues) == 0})
