@@ -22,11 +22,11 @@ def issue(request, id):
             form = IssueCommentForm()
     else:
         form = IssueCommentForm()
-    return render(request, "issue.html", {"issue":issue, "form":form})
+    return render(request, "counter/issue/issue.html", {"issue":issue, "form":form})
 
 @login_required
 def allIssues(request):
-    return render(request, "allIssues.html", {"issues":Issue.objects.all()})
+    return render(request, "counter/issue/allIssues.html", {"issues":Issue.objects.all()})
 
 @login_required
 def createIssue(request, gangid):
@@ -43,17 +43,16 @@ def createIssue(request, gangid):
             issue.save()
             issue.voted_yes.add(request.user)
             return redirect("/issue/" + str(issue.id))
-        return render(request, "issueCreation.html", {"form": form})
     else:
         form = IssueForm(gangid)
-    return render(request, "issueCreation.html", {"form": form})
+    return render(request, "counter/issue/issueCreation.html", {"form": form})
 
 @login_required
 def rank(request):
     sortedUsers = sorted(User.objects.all(), key=lambda t: t.profile.ehre, reverse=True)
     #sortedUsers = User.objects.all()
     print(sortedUsers)
-    return render(request, "rank.html",{"users": sortedUsers})
+    return render(request, "counter/rank.html",{"users": sortedUsers})
 
 @login_required
 def search(request):
@@ -69,10 +68,10 @@ def search(request):
             gangs = Group.objects.filter(name__icontains=search_term)
             issues = issues_1 | issues_2
             users = user_1 | user_2 | user_3
-            return render(request, "search.html", {"form":form, "gangs":gangs, "issues":issues, "users":users, "search_term":str(form.cleaned_data["search_term"])})
+            return render(request, "counter/search.html", {"form":form, "gangs":gangs, "issues":issues, "users":users, "search_term":str(form.cleaned_data["search_term"])})
     else:
         form = SearchForm()
-    return render(request, "search.html", {"form": form})
+    return render(request, "counter/search.html", {"form": form})
 
 @login_required
 def gang(request, id):
@@ -80,19 +79,19 @@ def gang(request, id):
     for user in group.members.all():
         for issue in user.is_targeted_by.all():
             keepConsistent(issue)
-    return render(request, "gang.html", {"group":group})
+    return render(request, "counter/gang/gang.html", {"group":group})
 
 @login_required
 def gangSettings(request, id):
     group = get_object_or_404(Group, id=id)
     if (request.user != group.admin):
         return render(request, "denied.html")
-    return render(request, "gangSettings.html", {"group":group})
+    return render(request, "counter/gang/gangSettings.html", {"group":group})
 
 
 @login_required
 def mygangs(request):
-    return render(request, "mygangs.html",{"gangs":request.user.ehre_groups.all()})
+    return render(request, "counter/gang/mygangs.html",{"gangs":request.user.ehre_groups.all()})
 
 @login_required
 def gangRequest(request, id):
@@ -138,10 +137,9 @@ def createGang(request):
             group.save()
             group.members.add(request.user)
             return redirect("/gang/" + str(group.id))
-        return render(request, "gangCreation.html", {"form": form})
     else:
         form = GroupForm()
-    return render(request, "gangCreation.html", {"form": form})
+    return render(request, "counter/gang/gangCreation.html", {"form": form})
 
 
 def keepConsistent(issue):
@@ -201,10 +199,11 @@ def vote(request, issue_id, approve):
 
 @login_required
 def redirectToUserProfile(request):
-    #user = request.user;
-    #return redirect("/profile/" + str(user.id))
-    return redirect("/")
+    user = request.user;
+    return redirect("/profile/" + str(user.id))
 
+def redirectToHomePage(request):
+    return redirect("/")
 
 @login_required
 def profile(request, id):
@@ -218,16 +217,16 @@ def profile(request, id):
     for iss in profileUser.created_issues.all():
         keepConsistent(iss)
 
-    return render(request, "profile.html", {
+    return render(request, "counter/profile.html", {
         "user":profileUser,
         "issues":profileUser.is_targeted_by.all(),
         "created":profileUser.created_issues.all(),
     })
-    return HttpResponse(str(profileUser.username) + "<br>" + str(profileUser.profile.ehre) + "<br>" + response)
+
 
 def index(request):
     if not request.user.is_authenticated:
-        return render(request, "newUserFrontPage.html")
+        return render(request, "counter/newUserFrontPage.html")
     newIssues = []
     for iss in Issue.objects.all():
         keepConsistent(iss)
