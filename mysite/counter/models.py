@@ -8,6 +8,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from datetime import *
 from math import floor
+from decimal import *
 
 # Create your models here.
 
