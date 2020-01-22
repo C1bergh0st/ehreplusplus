@@ -14,5 +14,9 @@ Nein, **ehrenlose** Menschen haben ja keine **Ehre** im Leib.
 ### Ist Ehrenmann nicht etwas sexistisch?
 Nein, **Ehrenmann** lässt sich ohne Änderung auf alle Menschen anwenden.
 
-### Fehlen ehreplusplis nicht noch ein paar Features?
+### Fehlen ehreplusplus nicht noch ein paar Features?
 Ja, das Projekt ist nun mal ein Hobby und nicht meine Lebesgrundlage.
+
+### Kann ich mehr sehen?
+Ja hier:
+![alt text](https://github.com/C1bergh0st/ehreplusplus/blob/master/antrag.PNG)
